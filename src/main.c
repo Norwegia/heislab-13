@@ -4,9 +4,44 @@
 #include <time.h>
 #include "driver/elevio.h"
 
-int
-main ()
-{
+#include "elevator.h"
+
+
+
+int main(){
+
+    Elevator elevator;
+
+    switch(elevator.m_state)
+    {
+    case MOVING_UP:
+        if(elevio_stopButton())
+
+        if(elevio_floorSensor() != elevator.m_current_floor){}
+
+            if(check_orders())
+
+    case MOVING_DOWN:
+        if(elevio_stopButton())
+
+        if(elevio_floorSensor() != elevator.m_current_floor){}
+            if(check_orders())
+
+    case IDLE_CLOSED:
+        if(elevio_stopButton())
+
+        if 
+
+    case IDLE_OPEN:
+        if(elevio_stopButton())
+
+    }
+
+
+
+
+
+
     elevio_init();
 
     printf("=== Example Program ===\n");
