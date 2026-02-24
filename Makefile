@@ -1,14 +1,15 @@
 
 EXECUTABLE  = elevator
 
+
+SOURCEDIR  = src
+OBJECTDIR  = build
+INCLUDEDIR = include
+
 COMPILER    = clang
-CFLAGS      = -Wall -g -std=gnu11 -fsanitize=address
+CFLAGS      = -Wall -g -std=gnu11 -fsanitize=address -I$(INCLUDEDIR)
 LDFLAGS     = -fsanitize=address
 EXCLUDE     = '*test*'
-
-
-SOURCEDIR = src
-OBJECTDIR = build
 
 SOURCES := $(patsubst $(SOURCEDIR)/%, %, $(shell find $(SOURCEDIR) -name '*.c'  ! -name $(EXCLUDE)  ! -path $(EXCLUDE)))
 OBJECTS = $(addprefix $(OBJECTDIR)/, $(SOURCES:.c=.o))
