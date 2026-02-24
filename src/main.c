@@ -15,26 +15,73 @@ int main(){
     switch(elevator.m_state)
     {
     case MOVING_UP:
-        if(elevio_stopButton())
+        if(elevio_stopButton()){
+            if (elevio_floorSensor() == NONE){
+                elevator.m_state = IDLE_CLOSED;
+            }
+            else {
+                elevator.mstate = IDLE_OPEN;
+            }
+        }
 
-        if(elevio_floorSensor() != elevator.m_current_floor){}
+        if(elevio_floorSensor() != elevator.m_current_floor)
+        {
+            elevator.m_current_floor = elevio_floorSensor()
+            if(check_orders(m_current_floor, elevator.m_state; *queue) || 
+                elevator.m_current_floor == queue.m_start.m_floor) {
+                elevator.m_state = IDLE_OPEN;
+            }
+            
+        }
 
-            if(check_orders())
+            
 
     case MOVING_DOWN:
-        if(elevio_stopButton())
+        if(elevio_stopButton()) {
+            if (elevio_floorSensor() == NONE){
+                elevator.m_state = IDLE_CLOSED;
+            }
+            else {
+                elevator.mstate = IDLE_OPEN;
+            }
+        }
 
-        if(elevio_floorSensor() != elevator.m_current_floor){}
-            if(check_orders())
+        if(elevio_floorSensor() != elevator.m_current_floor){
+            elevator.m_current_floor = elevio_floorSensor()
+            if(check_orders(m_current_floor, elevator.m_state; *queue) || 
+                elevator.m_current_floor == queue.m_start.m_floor) {
+                elevator.m_state = IDLE_OPEN;
+            }
+        }
+            
 
     case IDLE_CLOSED:
-        if(elevio_stopButton())
+        if(elevio_stopButton()) {
+            if (elevio_floorSensor() != NONE){
+                elevator.m_state = IDLE_OPEN;
+            }
+            
+        }
+        if(elevio_floorSensor() != NONE){
+            if(elevator.m_current_floor == queue.m_start.m_floor) {
+            elevator.m_state = IDLE_OPEN;
+            }
+        }
 
-        if 
+        if(elevator.m_current_floor > queue.m_start.m_floor) {
+            elevator.m_state = MOVING_DOWN;
+            }
+
+
+        if(elevator.m_current_floor < queue.m_start.m_floor) {
+            elevator.m_state = MOVING_UP;
+            }
 
     case IDLE_OPEN:
         if(elevio_stopButton())
 
+        delete_orders(elevator.m_current_floor, elevator.m_state; Queue * queue)
+        
     }
 
 

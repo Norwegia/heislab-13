@@ -52,7 +52,7 @@ remove_order (Order *s_order, Queue *queue)
 }
 
 bool
-check_orders (int current_floor, ElevatorState state; Queue * queue)
+check_orders (int current_floor, ElevatorState state, Queue * queue)
 {
     DllNode  *current_node = queue->start;
     Direction direction;

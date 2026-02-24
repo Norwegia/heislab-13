@@ -88,5 +88,5 @@ bool check_orders(int current_floor, ElevatorState state, Queue *queue);
  * @param queue         Pointer to the queue.
  */
 void
-delete_orders (int current_floor, ElevatorState state; Queue * queue)
-{
+delete_orders (int current_floor, ElevatorState state; Queue * queue);
+
