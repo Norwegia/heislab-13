@@ -1,4 +1,9 @@
 
+/**
+ * @file queue.h
+ * @brief Queue system for managing elevator orders using a doubly linked list.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "queue.h"
