@@ -13,7 +13,8 @@
 typedef enum
 {
     IDLE_CLOSED,
-    IDLE_OPEN,
+    STOPPED,
+    SERVICING,
     MOVING,
 } ElevatorState;
 
@@ -25,26 +26,17 @@ typedef struct Elevator
     ElevatorState  m_state;
     int            m_current_floor;
     MotorDirection m_direction;
+    int            m_door_open;
 
 } Elevator;
-
-/**
- * @brief Represents the direction of an elevator order.
- */
-typedef enum Direction
-{
-    UP,       /**< Order going up. */
-    DOWN,     /**< Order going down. */
-    INTERNAL, /**< Internal cabin order (no direction). */
-} Direction;
 
 /**
  * @brief Represents a single elevator order.
  */
 typedef struct Order
 {
-    Direction m_direction; /**< Direction associated with the order. */
-    int       m_floor;     /**< Target floor for the order. */
+    MotorDirection m_direction; /**< Direction associated with the order. */
+    int            m_floor;     /**< Target floor for the order. */
 } Order;
 
 /**
@@ -65,6 +57,8 @@ typedef struct Queue
     DllNode *m_start; /**< Pointer to the first node in the queue. */
     DllNode *m_stop;  /**< Pointer to the last node in the queue. */
 } Queue;
+
+void stop_elevator(Elevator *s_elevator, Queue *s_queue);
 
 /**
  * @brief Adds an order to the front of the queue.
@@ -99,7 +93,7 @@ void remove_order(DllNode *s_order_dll_node, Queue *s_queue);
  * @param s_queue       Pointer to the queue.
  * @return true  if a matching order exists, false otherwise.
  */
-bool check_orders(int current_floor, ElevatorState state, Queue *s_queue);
+bool check_orders(Elevator *s_elevator, Queue *s_queue);
 
 /**
  * @brief Deletes all orders that match the current floor and elevator movement
@@ -109,13 +103,6 @@ bool check_orders(int current_floor, ElevatorState state, Queue *s_queue);
  * @param state         The current state of the elevator.
  * @param s_queue       Pointer to the queue.
  */
-void delete_orders(int current_floor, ElevatorState state, Queue *s_queue);
+void delete_serviced_orders(Elevator *s_elevator, Queue *s_queue);
 
-/**
- * @brief Services the elevator at the current floor, opening doors and
- * removing fulfilled orders from the queue.
- *
- * @param s_elevator Pointer to the elevator.
- * @param s_queue    Pointer to the queue.
- */
-void Service(Elevator *s_elevator, Queue *s_queue);
+void delete_all_orders(Queue *s_queue);

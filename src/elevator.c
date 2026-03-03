@@ -50,26 +50,15 @@ remove_order (DllNode *s_order_dll_node, Queue *s_queue)
 }
 
 bool
-check_orders (int current_floor, ElevatorState state, Queue *s_queue)
+check_orders (Elevator *s_elevator, Queue *s_queue)
 {
-    DllNode  *current_node = s_queue->m_start;
-    Direction direction;
-
-    switch (state)
-    {
-        case MOVING_UP:
-            direction = UP;
-            break;
-        case MOVING_DOWN:
-            direction = DOWN;
-            break;
-    }
+    DllNode *current_node = s_queue->m_start;
 
     while (current_node != NULL)
     {
 
-        if (current_node->m_order.m_direction == direction
-            && current_node->m_order.m_floor == current_floor)
+        if (current_node->m_order.m_direction == s_elevator->m_direction
+            && current_node->m_order.m_floor == s_elevator->m_current_floor)
         {
             return true;
         }
@@ -81,26 +70,15 @@ check_orders (int current_floor, ElevatorState state, Queue *s_queue)
 }
 
 void
-delete_orders (int current_floor, ElevatorState state, Queue *s_queue)
+delete_serviced_orders (Elevator *s_elevator, Queue *s_queue)
 {
-    DllNode  *current_node = s_queue->m_start;
-    Direction direction;
-
-    switch (state)
-    {
-        case MOVING_UP:
-            direction = UP;
-            break;
-        case MOVING_DOWN:
-            direction = DOWN;
-            break;
-    }
+    DllNode *current_node = s_queue->m_start;
 
     while (current_node != NULL)
     {
 
-        if (current_node->m_order.m_direction == direction
-            && current_node->m_order.m_floor == current_floor)
+        if (current_node->m_order.m_direction == s_elevator->m_direction
+            && current_node->m_order.m_floor == s_elevator->m_current_floor)
         {
             current_node = current_node->m_next;
             remove_order(current_node->m_prev, s_queue);
@@ -110,36 +88,7 @@ delete_orders (int current_floor, ElevatorState state, Queue *s_queue)
     }
 }
 
-Elevator elevator;
-
 void
-Determine_Movement (Elevator *elevator, Queue *queue)
-{
-
-    if (queue->m_start == NULL)
-    {
-        elevator->m_state = IDLE_CLOSED;
-    }
-
-    else if (elevator->m_current_floor < queue->m_start->m_order.m_floor)
-    {
-        elevator->m_state = MOVING_UP;
-    }
-
-    else if (elevator->m_current_floor > queue->m_start->m_order.m_floor)
-    {
-        elevator->m_state = MOVING_DOWN;
-    }
-
-    else if (elevator->m_current_floor == queue->m_start->m_order.m_floor
-             || check_orders(
-                 elevator->m_current_floor, elevator->m_state, queue))
-    {
-        Service(elevator, queue);
-    }
-}
-
-void
-Service (Elevator *s_elevator, Queue *s_queue)
+delete_all_orders (Queue *s_queue)
 {
 }
