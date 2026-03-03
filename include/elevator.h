@@ -5,6 +5,7 @@
 
 #pragma once
 #include <stdbool.h>
+#include "driver/elevio.h"
 
 /**
  * @brief Represents the operating state of the elevator.
@@ -13,8 +14,7 @@ typedef enum
 {
     IDLE_CLOSED,
     IDLE_OPEN,
-    MOVING_UP,
-    MOVING_DOWN
+    MOVING,
 } ElevatorState;
 
 /**
@@ -22,8 +22,9 @@ typedef enum
  */
 typedef struct Elevator
 {
-    ElevatorState m_state;
-    int           m_current_floor;
+    ElevatorState  m_state;
+    int            m_current_floor;
+    MotorDirection m_direction;
 
 } Elevator;
 
