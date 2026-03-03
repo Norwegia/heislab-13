@@ -6,87 +6,99 @@
 
 #include "elevator.h"
 
-
-int main(){
+int
+main ()
+{
 
     Elevator elevator;
+    Queue   *queue;
 
-    switch(elevator.m_state)
+    switch (elevator.m_state)
     {
-    case MOVING_UP:
-        if(elevio_stopButton()){
-            if (elevio_floorSensor() == NONE){
-                elevator.m_state = IDLE_CLOSED;
-            }
-            else {
-                elevator.mstate = IDLE_OPEN;
-            }
-        }
-
-        if(elevio_floorSensor() != elevator.m_current_floor)
-        {
-            elevator.m_current_floor = elevio_floorSensor()
-            if(check_orders(m_current_floor, elevator.m_state; *queue) || 
-                elevator.m_current_floor == queue.m_start.m_floor) {
-                elevator.m_state = IDLE_OPEN;
-            }
-            
-        }
-
-            
-
-    case MOVING_DOWN:
-        if(elevio_stopButton()) {
-            if (elevio_floorSensor() == NONE){
-                elevator.m_state = IDLE_CLOSED;
-            }
-            else {
-                elevator.mstate = IDLE_OPEN;
-            }
-        }
-
-        if(elevio_floorSensor() != elevator.m_current_floor){
-            elevator.m_current_floor = elevio_floorSensor()
-            if(check_orders(m_current_floor, elevator.m_state; *queue) || 
-                elevator.m_current_floor == queue.m_start.m_floor) {
-                elevator.m_state = IDLE_OPEN;
-            }
-        }
-            
-
-    case IDLE_CLOSED:
-        if(elevio_stopButton()) {
-            if (elevio_floorSensor() != NONE){
-                elevator.m_state = IDLE_OPEN;
-            }
-            
-        }
-        if(elevio_floorSensor() != NONE){
-            if(elevator.m_current_floor == queue.m_start.m_floor) {
-            elevator.m_state = IDLE_OPEN;
-            }
-        }
-
-        if(elevator.m_current_floor > queue.m_start.m_floor) {
-            elevator.m_state = MOVING_DOWN;
+        case MOVING_UP:
+            if (elevio_stopButton())
+            {
+                if (elevio_floorSensor() == -1)
+                {
+                    elevator.m_state = IDLE_CLOSED;
+                }
+                else
+                {
+                    elevator.m_state = IDLE_OPEN;
+                }
             }
 
-
-        if(elevator.m_current_floor < queue.m_start.m_floor) {
-            elevator.m_state = MOVING_UP;
+            if (elevio_floorSensor() != elevator.m_current_floor)
+            {
+                elevator.m_current_floor = elevio_floorSensor();
+                if (check_orders(
+                        elevator.m_current_floor, elevator.m_state, queue)
+                    || elevator.m_current_floor
+                           == queue->m_start->m_order.m_floor)
+                {
+                    elevator.m_state = IDLE_OPEN;
+                }
             }
 
-    case IDLE_OPEN:
-        if(elevio_stopButton())
+        case MOVING_DOWN:
+            if (elevio_stopButton())
+            {
+                if (elevio_floorSensor() == -1)
+                {
+                    elevator.m_state = IDLE_CLOSED;
+                }
+                else
+                {
+                    elevator.m_state = IDLE_OPEN;
+                }
+            }
 
-        delete_orders(elevator.m_current_floor, elevator.m_state; Queue * queue)
-        
+            if (elevio_floorSensor() != elevator.m_current_floor)
+            {
+                elevator.m_current_floor = elevio_floorSensor();
+                if (check_orders(
+                        elevator.m_current_floor, elevator.m_state, queue)
+                    || elevator.m_current_floor
+                           == queue->m_start->m_order.m_floor)
+                {
+                    elevator.m_state = IDLE_OPEN;
+                }
+            }
+
+        case IDLE_CLOSED:
+            if (elevio_stopButton())
+            {
+                if (elevio_floorSensor() != -1)
+                {
+                    elevator.m_state = IDLE_OPEN;
+                }
+            }
+            if (elevio_floorSensor() != -1)
+            {
+                if (elevator.m_current_floor == queue->m_start->m_order.m_floor)
+                {
+                    elevator.m_state = IDLE_OPEN;
+                }
+            }
+
+            if (elevator.m_current_floor > queue->m_start->m_order.m_floor)
+            {
+                elevator.m_state = MOVING_DOWN;
+            }
+
+            if (elevator.m_current_floor < queue->m_start->m_order.m_floor)
+            {
+                elevator.m_state = MOVING_UP;
+            }
+
+        case IDLE_OPEN:
+            if (elevio_stopButton())
+            {
+
+                delete_orders(
+                    elevator.m_current_floor, elevator.m_state, queue);
+            }
     }
-
-
-
-
-
 
     elevio_init();
 
@@ -100,11 +112,10 @@ int main(){
         int floor = elevio_floorSensor();
 
         if (floor == 0)
+        {
 
-
-
-
-        elevio_init();
+            elevio_init();
+        }
 
         printf("=== Example Program ===\n");
         printf("Press the stop button on the elevator panel to exit\n");
@@ -151,5 +162,6 @@ int main(){
 
             nanosleep(&(struct timespec) { 0, 20 * 1000 * 1000 }, NULL);
         }
-    return 0;
+        return 0;
+    }
 }

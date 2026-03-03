@@ -30,7 +30,7 @@ typedef struct Elevator
 /**
  * @brief Represents the direction of an elevator order.
  */
-typedef enum
+typedef enum Direction
 {
     UP,       /**< Order going up. */
     DOWN,     /**< Order going down. */
