@@ -58,6 +58,8 @@ typedef struct Queue
     DllNode *m_stop;  /**< Pointer to the last node in the queue. */
 } Queue;
 
+int saturate(int min, int max, int val);
+
 void stop_elevator(Elevator *s_elevator, Queue *s_queue);
 
 /**

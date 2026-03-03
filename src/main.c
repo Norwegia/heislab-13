@@ -28,9 +28,27 @@ main ()
 
     queue->m_start = NULL;
     queue->m_stop  = NULL;
-
+    
     while (1)
     {
+        
+        for (int floor = 0; floor < N_FLOORS; floor++) {
+          for (int button = 0; button < N_BUTTONS; button++) {
+            int button_pressed = elevio_callButton(floor, button);
+            elevio_buttonLamp(floor, button, button_pressed);
+            if (button_pressed) {
+              Order new_order;
+              new_order.m_floor = floor;
+              new_order.m_direction = saturate(-1, 1, floor - elevator->m_current_floor);
+              if (button == BUTTON_CAB) { 
+                add_order_front(new_order, queue);
+              } else {
+                add_order_back(new_order, queue);
+              }            
+             }
+          }
+        }        
+
         switch (elevator->m_state)
         {
             case MOVING:

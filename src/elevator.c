@@ -92,3 +92,7 @@ void
 delete_all_orders (Queue *s_queue)
 {
 }
+
+int saturate(int min, int max, int val) {
+  return 0;
+}
