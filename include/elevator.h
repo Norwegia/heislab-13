@@ -59,16 +59,6 @@ typedef struct Queue
 } Queue;
 
 /**
- * @brief Clamps a value between a minimum and maximum bound.
- *
- * @param min The lower bound.
- * @param max The upper bound.
- * @param val The value to clamp.
- * @return The clamped value.
- */
-int saturate(int min, int max, int val);
-
-/**
  * @brief Stops the elevator, clears the queue, and transitions to the stopped
  * state.
  *

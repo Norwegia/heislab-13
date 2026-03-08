@@ -12,23 +12,28 @@ main ()
 
     Elevator *elevator             = (Elevator *)malloc(sizeof(Elevator));
     Queue    *queue                = (Queue *)malloc(sizeof(Queue));
-    clock_t  *stop_start_time      = NULL;
-    clock_t  *servicing_start_time = NULL;
+    time_t  *stop_start_time      = NULL;
+    time_t  *servicing_start_time = NULL;
 
     elevio_init();
     while (elevio_floorSensor() == -1)
     {
         elevio_motorDirection(DIRN_DOWN);
     }
-    elevio_motorDirection(DIRN_STOP);
+    
     elevator->m_state         = IDLE_CLOSED;
     elevator->m_direction     = DIRN_DOWN;
     elevator->m_current_floor = elevio_floorSensor();
     elevator->m_door_open     = 0;
 
+    elevio_motorDirection(DIRN_STOP);
+    elevio_floorIndicator(elevator->m_current_floor);
+    elevio_doorOpenLamp(0);
+    elevio_stopLamp(0);
+
     queue->m_start = NULL;
     queue->m_stop  = NULL;
-
+    
     while (1)
     {
 
@@ -61,7 +66,8 @@ main ()
                 }
             }
         }
-
+        
+        
         switch (elevator->m_state)
         {
             case MOVING:
@@ -69,15 +75,20 @@ main ()
                 {
                     stop_elevator(elevator, queue);
                 }
-
-                if (elevio_floorSensor() != elevator->m_current_floor)
+                
+                
+                if (elevio_floorSensor() != -1 && elevio_floorSensor() != elevator->m_current_floor)
                 {
+                    printf("at new floor: %d\n", elevio_floorSensor());
                     elevator->m_current_floor = elevio_floorSensor();
+                    printf("set new floor: %d\n", elevator->m_current_floor);
                     elevio_floorIndicator(elevator->m_current_floor);
                     if (check_orders(elevator, queue))
                     {
                         elevio_motorDirection(DIRN_STOP);
                         elevator->m_state = SERVICING;
+                        elevator->m_door_open = 1;
+                        elevio_doorOpenLamp(1);
                     }
                 }
                 break;
@@ -92,19 +103,17 @@ main ()
                     elevio_stopLamp(0);
                     if (stop_start_time == NULL)
                     {
-                        stop_start_time  = (clock_t *)malloc(sizeof(clock_t));
-                        *stop_start_time = clock();
+                        stop_start_time  = (time_t *)malloc(sizeof(time_t));
+                        *stop_start_time = time(0);
                     }
                     else
                     {
-                        double time_elapsed
-                            = ((double)(clock() - *stop_start_time))
-                              / CLOCKS_PER_SEC;
+                        double time_elapsed = ((double)(time(0) - *stop_start_time));
                         if (time_elapsed >= 3)
                         {
                             if (elevio_obstruction())
                             {
-                                *stop_start_time = clock();
+                                *stop_start_time = time(0);
                             }
                             else
                             {
@@ -137,6 +146,7 @@ main ()
                 }
                 else if (queue->m_start != NULL)
                 {
+                    printf("non empty queue\n");
                     if (elevio_floorSensor() != -1)
                     {
                         if (check_orders(elevator, queue))
@@ -147,9 +157,10 @@ main ()
                         }
                     }
 
-                    else if (elevator->m_current_floor
+                    if (elevator->m_current_floor
                              > queue->m_start->m_order.m_floor)
                     {
+                        printf("lets go down\n");
                         elevator->m_state     = MOVING;
                         elevator->m_direction = DIRN_DOWN;
                         elevio_motorDirection(DIRN_DOWN);
@@ -158,6 +169,7 @@ main ()
                     else if (elevator->m_current_floor
                              < queue->m_start->m_order.m_floor)
                     {
+                        printf("lets go up\n");
                         elevator->m_state     = MOVING;
                         elevator->m_direction = DIRN_UP;
                         elevio_motorDirection(DIRN_UP);
@@ -172,19 +184,20 @@ main ()
                 }
                 else if (servicing_start_time == NULL)
                 {
-                    servicing_start_time  = (clock_t *)malloc(sizeof(clock_t));
-                    *servicing_start_time = clock();
+                    printf("starting servicing timer\n");
+                    servicing_start_time  = (time_t *)malloc(sizeof(time_t));
+                    *servicing_start_time = time(0);
                 }
                 else
                 {
-                    double time_elapsed = ((double)(clock() - *stop_start_time))
-                                          / CLOCKS_PER_SEC;
-                    if (time_elapsed >= 3)
+                    double time_elapsed = ((double)(time(0) - *servicing_start_time));
+                    printf("time elapsed: %f\n", time_elapsed);
+                    if (time_elapsed >= 3.0)
                     {
+                        printf("nuff time has elapsed\n");
                         if (elevio_obstruction())
                         {
-
-                            *servicing_start_time = clock();
+                            *servicing_start_time = time(0);
                         }
                         else
                         {
@@ -201,5 +214,12 @@ main ()
                 break;
         }
     }
+
+    delete_all_orders(queue);
+    free(elevator);
+    free(queue);
+    free(stop_start_time);
+    free(servicing_start_time);
+
     return 0;
 }
