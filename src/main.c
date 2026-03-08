@@ -41,16 +41,22 @@ main ()
                 if (button_pressed)
                 {
                     Order new_order;
-                    new_order.m_floor = floor;
-                    new_order.m_direction
-                        = saturate(-1, 1, floor - elevator->m_current_floor);
-                    if (button == BUTTON_CAB)
+                    new_order.m_floor     = floor;
+                    new_order.m_direction = button;
+                    switch (button)
                     {
-                        add_order_front(new_order, queue);
-                    }
-                    else
-                    {
-                        add_order_back(new_order, queue);
+                        case BUTTON_HALL_UP:
+                            new_order.m_direction = DIRN_UP;
+                            add_order_back(new_order, queue);
+                            break;
+                        case BUTTON_HALL_DOWN:
+                            new_order.m_direction = DIRN_DOWN;
+                            add_order_back(new_order, queue);
+                            break;
+                        case BUTTON_CAB:
+                            new_order.m_direction = DIRN_STOP;
+                            add_order_front(new_order, queue);
+                            break;
                     }
                 }
             }
