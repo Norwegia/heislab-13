@@ -30,20 +30,33 @@ void
 add_order_front (Order s_order, Queue *s_queue)
 {
     DllNode *s_new_node = (DllNode *)malloc(sizeof(DllNode));
-    s_new_node->m_prev  = NULL;
-    s_new_node->m_next  = s_queue->m_start;
-    s_new_node->m_order = s_order;
-    s_queue->m_start    = s_new_node;
+    Elevator s_elevator;
+    s_elevator.m_current_floor = s_order.m_floor;
+    s_elevator.m_direction     = s_order.m_direction;
+    if (!check_orders(&s_elevator, s_queue))
+    {
+        s_new_node->m_prev  = NULL;
+        s_new_node->m_next  = s_queue->m_start;
+        s_new_node->m_order = s_order;
+        s_queue->m_start    = s_new_node;
+    }
 }
 
 void
 add_order_back (Order s_order, Queue *s_queue)
 {
     DllNode *s_new_node = (DllNode *)malloc(sizeof(DllNode));
-    s_new_node->m_next  = NULL;
-    s_new_node->m_prev  = s_queue->m_stop;
-    s_new_node->m_order = s_order;
-    s_queue->m_stop     = s_new_node;
+
+    Elevator s_elevator;
+    s_elevator.m_current_floor = s_order.m_floor;
+    s_elevator.m_direction     = s_order.m_direction;
+    if (!check_orders(&s_elevator, s_queue))
+    {
+        s_new_node->m_next  = NULL;
+        s_new_node->m_prev  = s_queue->m_stop;
+        s_new_node->m_order = s_order;
+        s_queue->m_stop     = s_new_node;
+    }
 }
 
 void
