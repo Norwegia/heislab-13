@@ -61,20 +61,7 @@ main ()
             case MOVING:
                 if (elevio_stopButton())
                 {
-                    elevio_motorDirection(DIRN_STOP);
-                    elevio_stopLamp(1);
-                    elevator->m_state = STOPPED;
-                    delete_all_orders(queue);
-                    if (elevio_floorSensor() == -1)
-                    {
-                        elevator->m_door_open = 0;
-                        elevio_doorOpenLamp(0);
-                    }
-                    else
-                    {
-                        elevator->m_door_open = 1;
-                        elevio_doorOpenLamp(1);
-                    }
+                    stop_elevator(elevator, queue);
                 }
 
                 if (elevio_floorSensor() != elevator->m_current_floor)
@@ -89,12 +76,12 @@ main ()
                 }
                 break;
             case STOPPED:
-                if (elevio_stopButton)
+                if (elevio_stopButton())
                 {
                     stop_start_time = NULL;
                     elevio_stopLamp(1);
                 }
-                else if (elevio_floorSensor != -1)
+                else if (elevio_floorSensor() != -1)
                 {
                     elevio_stopLamp(0);
                     if (stop_start_time == NULL)
@@ -109,7 +96,7 @@ main ()
                               / CLOCKS_PER_SEC;
                         if (time_elapsed >= 3)
                         {
-                            if (elevio_obstruction)
+                            if (elevio_obstruction())
                             {
                                 *stop_start_time = clock();
                             }
@@ -140,20 +127,7 @@ main ()
             case IDLE_CLOSED:
                 if (elevio_stopButton())
                 {
-                    elevio_motorDirection(DIRN_STOP);
-                    elevio_stopLamp(1);
-                    elevator->m_state = STOPPED;
-                    delete_all_orders(queue);
-                    if (elevio_floorSensor() == -1)
-                    {
-                        elevator->m_door_open = 0;
-                        elevio_doorOpenLamp(0);
-                    }
-                    else
-                    {
-                        elevator->m_door_open = 1;
-                        elevio_doorOpenLamp(1);
-                    }
+                    stop_elevator(elevator, queue);
                 }
                 else if (queue->m_start != NULL)
                 {
@@ -188,19 +162,7 @@ main ()
             case SERVICING:
                 if (elevio_stopButton())
                 {
-                    servicing_start_time = NULL;
-                    elevator->m_state    = STOPPED;
-                    delete_all_orders(queue);
-                    if (elevio_floorSensor() == -1)
-                    {
-                        elevator->m_door_open = 0;
-                        elevio_doorOpenLamp(0);
-                    }
-                    else
-                    {
-                        elevator->m_door_open = 1;
-                        elevio_doorOpenLamp(1);
-                    }
+                    stop_elevator(elevator, queue);
                 }
                 else if (servicing_start_time == NULL)
                 {

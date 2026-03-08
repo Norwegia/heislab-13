@@ -7,6 +7,26 @@
 #include <stdio.h>
 
 void
+stop_elevator (Elevator *s_elevator, Queue *s_queue)
+{
+
+    elevio_motorDirection(DIRN_STOP);
+    elevio_stopLamp(1);
+    s_elevator->m_state = STOPPED;
+    delete_all_orders(s_queue);
+    if (elevio_floorSensor() == -1)
+    {
+        s_elevator->m_door_open = 0;
+        elevio_doorOpenLamp(0);
+    }
+    else
+    {
+        s_elevator->m_door_open = 1;
+        elevio_doorOpenLamp(1);
+    }
+}
+
+void
 add_order_front (Order s_order, Queue *s_queue)
 {
     DllNode *s_new_node = (DllNode *)malloc(sizeof(DllNode));

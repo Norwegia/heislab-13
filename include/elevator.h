@@ -58,8 +58,23 @@ typedef struct Queue
     DllNode *m_stop;  /**< Pointer to the last node in the queue. */
 } Queue;
 
+/**
+ * @brief Clamps a value between a minimum and maximum bound.
+ *
+ * @param min The lower bound.
+ * @param max The upper bound.
+ * @param val The value to clamp.
+ * @return The clamped value.
+ */
 int saturate(int min, int max, int val);
 
+/**
+ * @brief Stops the elevator, clears the queue, and transitions to the stopped
+ * state.
+ *
+ * @param s_elevator Pointer to the elevator.
+ * @param s_queue    Pointer to the queue.
+ */
 void stop_elevator(Elevator *s_elevator, Queue *s_queue);
 
 /**
@@ -90,9 +105,8 @@ void remove_order(DllNode *s_order_dll_node, Queue *s_queue);
  * @brief Checks whether any queued order matches the current floor and elevator
  * direction.
  *
- * @param current_floor The floor the elevator is currently on.
- * @param state         The current state of the elevator.
- * @param s_queue       Pointer to the queue.
+ * @param s_elevator Pointer to the elevator.
+ * @param s_queue    Pointer to the queue.
  * @return true  if a matching order exists, false otherwise.
  */
 bool check_orders(Elevator *s_elevator, Queue *s_queue);
@@ -101,10 +115,14 @@ bool check_orders(Elevator *s_elevator, Queue *s_queue);
  * @brief Deletes all orders that match the current floor and elevator movement
  * direction.
  *
- * @param current_floor The floor the elevator is currently on.
- * @param state         The current state of the elevator.
- * @param s_queue       Pointer to the queue.
+ * @param s_elevator Pointer to the elevator.
+ * @param s_queue    Pointer to the queue.
  */
 void delete_serviced_orders(Elevator *s_elevator, Queue *s_queue);
 
+/**
+ * @brief Removes all orders from the queue and frees their memory.
+ *
+ * @param s_queue Pointer to the queue.
+ */
 void delete_all_orders(Queue *s_queue);
