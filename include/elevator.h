@@ -5,6 +5,7 @@
 
 #pragma once
 #include <stdbool.h>
+#include "driver/elevio.h"
 
 /**
  * @brief Represents the operating state of the elevator.
@@ -12,9 +13,9 @@
 typedef enum
 {
     IDLE_CLOSED,
-    IDLE_OPEN,
-    MOVING_UP,
-    MOVING_DOWN
+    STOPPED,
+    SERVICING,
+    MOVING,
 } ElevatorState;
 
 /**
@@ -22,28 +23,20 @@ typedef enum
  */
 typedef struct Elevator
 {
-    ElevatorState m_state;
-    int           m_current_floor;
+    ElevatorState  m_state;
+    int            m_current_floor;
+    MotorDirection m_direction;
+    int            m_door_open;
 
 } Elevator;
-
-/**
- * @brief Represents the direction of an elevator order.
- */
-typedef enum
-{
-    UP,       /**< Order going up. */
-    DOWN,     /**< Order going down. */
-    INTERNAL, /**< Internal cabin order (no direction). */
-} Direction;
 
 /**
  * @brief Represents a single elevator order.
  */
 typedef struct Order
 {
-    Direction m_direction; /**< Direction associated with the order. */
-    int       m_floor;     /**< Target floor for the order. */
+    MotorDirection m_direction; /**< Direction associated with the order. */
+    int            m_floor;     /**< Target floor for the order. */
 } Order;
 
 /**
@@ -64,6 +57,25 @@ typedef struct Queue
     DllNode *m_start; /**< Pointer to the first node in the queue. */
     DllNode *m_stop;  /**< Pointer to the last node in the queue. */
 } Queue;
+
+/**
+ * @brief Clamps a value between a minimum and maximum bound.
+ *
+ * @param min The lower bound.
+ * @param max The upper bound.
+ * @param val The value to clamp.
+ * @return The clamped value.
+ */
+int saturate(int min, int max, int val);
+
+/**
+ * @brief Stops the elevator, clears the queue, and transitions to the stopped
+ * state.
+ *
+ * @param s_elevator Pointer to the elevator.
+ * @param s_queue    Pointer to the queue.
+ */
+void stop_elevator(Elevator *s_elevator, Queue *s_queue);
 
 /**
  * @brief Adds an order to the front of the queue.
@@ -93,28 +105,24 @@ void remove_order(DllNode *s_order_dll_node, Queue *s_queue);
  * @brief Checks whether any queued order matches the current floor and elevator
  * direction.
  *
- * @param current_floor The floor the elevator is currently on.
- * @param state         The current state of the elevator.
- * @param s_queue       Pointer to the queue.
+ * @param s_elevator Pointer to the elevator.
+ * @param s_queue    Pointer to the queue.
  * @return true  if a matching order exists, false otherwise.
  */
-bool check_orders(int current_floor, ElevatorState state, Queue *s_queue);
+bool check_orders(Elevator *s_elevator, Queue *s_queue);
 
 /**
  * @brief Deletes all orders that match the current floor and elevator movement
  * direction.
  *
- * @param current_floor The floor the elevator is currently on.
- * @param state         The current state of the elevator.
- * @param s_queue       Pointer to the queue.
- */
-void delete_orders(int current_floor, ElevatorState state, Queue *s_queue);
-
-/**
- * @brief Services the elevator at the current floor, opening doors and
- * removing fulfilled orders from the queue.
- *
  * @param s_elevator Pointer to the elevator.
  * @param s_queue    Pointer to the queue.
  */
-void Service(Elevator *s_elevator, Queue *s_queue);
+void delete_serviced_orders(Elevator *s_elevator, Queue *s_queue);
+
+/**
+ * @brief Removes all orders from the queue and frees their memory.
+ *
+ * @param s_queue Pointer to the queue.
+ */
+void delete_all_orders(Queue *s_queue);
