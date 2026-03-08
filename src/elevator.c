@@ -91,8 +91,25 @@ delete_serviced_orders (Elevator *s_elevator, Queue *s_queue)
 void
 delete_all_orders (Queue *s_queue)
 {
+    while (s_queue->m_start != NULL)
+    {
+        remove_order(s_queue->m_start, s_queue);
+    }
 }
 
-int saturate(int min, int max, int val) {
-  return 0;
+int
+saturate (int min, int max, int val)
+{
+    if (val > max)
+    {
+        return max;
+    }
+    else if (val < min)
+    {
+        return min;
+    }
+    else
+    {
+        return val;
+    }
 }
