@@ -43,7 +43,7 @@ main ()
             {
                 int button_pressed = elevio_callButton(floor, button);
                 elevio_buttonLamp(floor, button, button_pressed);
-                if (button_pressed)
+                if (button_pressed && elevator->m_state != STOPPED)
                 {
                     Order new_order;
                     new_order.m_floor     = floor;
@@ -132,9 +132,18 @@ main ()
                     elevio_stopLamp(0);
                     elevator->m_state = IDLE_CLOSED;
                     Order return_to_story_order;
-                    return_to_story_order.m_floor = elevator->m_current_floor;
-                    return_to_story_order.m_direction
-                        = elevator->m_direction * -1;
+                    if (elevator->m_current_floor == N_FLOORS - 1) {
+                        return_to_story_order.m_floor = N_FLOORS - 2;
+                        return_to_story_order.m_direction = DIRN_DOWN;
+
+                    } else if (elevator->m_current_floor == 0) {
+                        return_to_story_order.m_floor = 1;
+                        return_to_story_order.m_direction = DIRN_UP;
+                    } else {
+                        return_to_story_order.m_floor = elevator->m_current_floor - 1;
+                        return_to_story_order.m_direction = DIRN_DOWN;
+                    }
+
                     add_order_front(return_to_story_order, queue);
                 }
                 break;
