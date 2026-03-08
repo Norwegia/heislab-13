@@ -112,12 +112,16 @@ check_orders (Elevator *s_elevator, Queue *s_queue)
     while (current_node != NULL)
     {
         printf("current node: %p\n", current_node);
-        if (current_node->m_order.m_direction == s_elevator->m_direction
+        if (s_elevator->m_current_floor == s_queue->m_start->m_order.m_floor) {
+            printf("reached target order\n");
+            return true;
+        }
+        else if (current_node->m_order.m_direction == s_elevator->m_direction
             && current_node->m_order.m_floor == s_elevator->m_current_floor)
         {
             printf("found matching order at floor %d going in direction %d\n", current_node->m_order.m_floor, current_node->m_order.m_direction);
             return true;
-        }
+        } 
 
         current_node = current_node->m_next;
     }
@@ -133,8 +137,7 @@ delete_serviced_orders (Elevator *s_elevator, Queue *s_queue)
     while (current_node != NULL)
     {
 
-        if (current_node->m_order.m_direction == s_elevator->m_direction
-            && current_node->m_order.m_floor == s_elevator->m_current_floor)
+        if (current_node->m_order.m_floor == s_elevator->m_current_floor)
         {
             if (current_node->m_next == NULL) {
                 remove_order(current_node, s_queue);
@@ -144,7 +147,7 @@ delete_serviced_orders (Elevator *s_elevator, Queue *s_queue)
             current_node = current_node->m_next;
             remove_order(current_node->m_prev, s_queue);
             continue; 
-            
+
         }
 
         current_node = current_node->m_next;
