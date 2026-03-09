@@ -79,9 +79,7 @@ main ()
                 if (floor_reading != -1
                     && floor_reading != elevator->m_current_floor)
                 {
-                    printf("at new floor: %d\n", floor_reading);
                     elevator->m_current_floor = floor_reading;
-                    printf("set new floor: %d\n", elevator->m_current_floor);
                     elevio_floorIndicator(elevator->m_current_floor);
                     if (check_orders(elevator, queue))
                     {
@@ -138,7 +136,6 @@ main ()
                 }
                 else if (queue->m_start != NULL)
                 {
-                    printf("non empty queue\n");
                     if (elevio_floorSensor() != -1)
                     {
                         if (check_orders(elevator, queue))
@@ -152,7 +149,6 @@ main ()
                     if (elevator->m_current_floor
                         > queue->m_start->m_order.m_floor)
                     {
-                        printf("lets go down\n");
                         elevator->m_state     = MOVING;
                         elevator->m_direction = DIRN_DOWN;
                         elevio_motorDirection(DIRN_DOWN);
@@ -161,7 +157,6 @@ main ()
                     else if (elevator->m_current_floor
                              < queue->m_start->m_order.m_floor)
                     {
-                        printf("lets go up\n");
                         elevator->m_state     = MOVING;
                         elevator->m_direction = DIRN_UP;
                         elevio_motorDirection(DIRN_UP);
@@ -176,7 +171,6 @@ main ()
                 }
                 else if (servicing_start_time == NULL)
                 {
-                    printf("starting servicing timer\n");
                     servicing_start_time  = (time_t *)malloc(sizeof(time_t));
                     *servicing_start_time = time(0);
                 }
@@ -188,7 +182,6 @@ main ()
                 {
                     double time_elapsed
                         = ((double)(time(0) - *servicing_start_time));
-                    printf("time elapsed: %f\n", time_elapsed);
                     if (time_elapsed >= 3.0)
                     {
                         elevator->m_state     = IDLE_CLOSED;
