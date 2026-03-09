@@ -83,6 +83,7 @@ main ()
                     elevio_floorIndicator(elevator->m_current_floor);
                     if (check_serviceable_orders(elevator, queue))
                     {
+                        printf("found serviceable orders");
                         elevio_motorDirection(DIRN_STOP);
                         elevator->m_state     = SERVICING;
                         elevator->m_door_open = 1;
@@ -140,6 +141,7 @@ main ()
                     {
                         if (check_serviceable_orders(elevator, queue))
                         {
+                            printf("found serviable orders");
                             elevator->m_state     = SERVICING;
                             elevator->m_door_open = 1;
                             elevio_doorOpenLamp(1);

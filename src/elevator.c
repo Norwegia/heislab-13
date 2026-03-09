@@ -181,9 +181,12 @@ check_duplicate_orders (Elevator *s_elevator, Queue *s_queue)
         if (current_node->m_order.m_direction == s_elevator->m_direction
             && current_node->m_order.m_floor == s_elevator->m_current_floor)
         {
+            printf("duplicate found");
             return true;
+        
         }
     }
+    printf("no duplicates found");
     return false;
 }
 
