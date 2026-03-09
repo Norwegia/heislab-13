@@ -190,7 +190,7 @@ delete_serviced_orders (Elevator *s_elevator, Queue *s_queue)
             if (current_node->m_next == NULL)
             {
                 remove_order(current_node, s_queue);
-                return;
+                break;
             }
 
             current_node = current_node->m_next;
