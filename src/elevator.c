@@ -33,6 +33,7 @@ stop_elevator (Elevator *s_elevator, Queue *s_queue)
     elevio_stopLamp(1);
     s_elevator->m_state = STOPPED;
     delete_all_orders(s_queue);
+
     if (elevio_floorSensor() == -1)
     {
         s_elevator->m_door_open = 0;
@@ -215,5 +216,19 @@ delete_all_orders (Queue *s_queue)
     while (s_queue->m_start != NULL)
     {
         remove_order(s_queue->m_start, s_queue);
+    }
+    turn_off_all_button_lights();
+}
+
+void
+turn_off_all_button_lights ()
+{
+
+    for (int floor = 0; floor < N_FLOORS; floor++)
+    {
+        for (int button = 0; button < N_BUTTONS; button++)
+        {
+            elevio_buttonLamp(floor, button, 0);
+        }
     }
 }

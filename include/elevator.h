@@ -128,3 +128,5 @@ void delete_serviced_orders(Elevator *s_elevator, Queue *s_queue);
  * @param s_queue Pointer to the queue.
  */
 void delete_all_orders(Queue *s_queue);
+
+void turn_off_all_button_lights();

@@ -17,6 +17,7 @@ main ()
 
     elevio_init();
     move_elevator_to_defined_state(elevator);
+    turn_off_all_button_lights();
 
     queue->m_start = NULL;
     queue->m_stop  = NULL;
