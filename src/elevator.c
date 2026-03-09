@@ -162,7 +162,9 @@ check_orders (Elevator *s_elevator, Queue *s_queue)
             printf("reached target order\n");
             return true;
         }
-        else if (current_node->m_order.m_direction == DIRN_STOP)
+        else if (current_node->m_order.m_direction == DIRN_STOP
+                 && current_node->m_order.m_floor
+                        == s_elevator->m_current_floor)
         {
             return true;
         }
