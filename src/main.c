@@ -81,7 +81,7 @@ main ()
                 {
                     elevator->m_current_floor = floor_reading;
                     elevio_floorIndicator(elevator->m_current_floor);
-                    if (check_orders(elevator, queue))
+                    if (check_serviceable_orders(elevator, queue))
                     {
                         elevio_motorDirection(DIRN_STOP);
                         elevator->m_state     = SERVICING;
@@ -138,7 +138,7 @@ main ()
                 {
                     if (elevio_floorSensor() != -1)
                     {
-                        if (check_orders(elevator, queue))
+                        if (check_serviceable_orders(elevator, queue))
                         {
                             elevator->m_state     = SERVICING;
                             elevator->m_door_open = 1;

@@ -111,7 +111,9 @@ void remove_order(DllNode *s_order_dll_node, Queue *s_queue);
  * @param s_queue    Pointer to the queue.
  * @return true  if a matching order exists, false otherwise.
  */
-bool check_orders(Elevator *s_elevator, Queue *s_queue);
+bool check_serviceable_orders(Elevator *s_elevator, Queue *s_queue);
+
+bool check_duplicate_orders(Elevator *s_elevator, Queue *s_queue);
 
 /**
  * @brief Deletes all orders that match the current floor and elevator movement

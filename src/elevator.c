@@ -52,7 +52,7 @@ add_order_front (Order s_order, Queue *s_queue)
     Elevator s_elevator;
     s_elevator.m_current_floor = s_order.m_floor;
     s_elevator.m_direction     = s_order.m_direction;
-    if (!check_orders(&s_elevator, s_queue))
+    if (!check_duplicate_orders(&s_elevator, s_queue))
     {
         DllNode *s_new_node = (DllNode *)malloc(sizeof(DllNode));
         s_new_node->m_prev  = NULL;
@@ -78,7 +78,7 @@ add_order_back (Order s_order, Queue *s_queue)
     Elevator s_elevator;
     s_elevator.m_current_floor = s_order.m_floor;
     s_elevator.m_direction     = s_order.m_direction;
-    if (!check_orders(&s_elevator, s_queue))
+    if (!check_duplicate_orders(&s_elevator, s_queue))
     {
         DllNode *s_new_node = (DllNode *)malloc(sizeof(DllNode));
         s_new_node->m_next  = NULL;
@@ -142,7 +142,7 @@ remove_order (DllNode *s_order_dll_node, Queue *s_queue)
 }
 
 bool
-check_orders (Elevator *s_elevator, Queue *s_queue)
+check_serviceable_orders (Elevator *s_elevator, Queue *s_queue)
 {
     DllNode *current_node = s_queue->m_start;
 
@@ -168,6 +168,22 @@ check_orders (Elevator *s_elevator, Queue *s_queue)
         current_node = current_node->m_next;
     }
 
+    return false;
+}
+
+bool
+check_duplicate_orders (Elevator *s_elevator, Queue *s_queue)
+{
+    DllNode *current_node = s_queue->m_start;
+
+    while (current_node != NULL)
+    {
+        if (current_node->m_order.m_direction == s_elevator->m_direction
+            && current_node->m_order.m_floor == s_elevator->m_current_floor)
+        {
+            return true;
+        }
+    }
     return false;
 }
 
