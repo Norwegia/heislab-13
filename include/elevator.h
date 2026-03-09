@@ -85,7 +85,7 @@ void stop_elevator(Elevator *s_elevator, Queue *s_queue);
  * @param s_order The order to add.
  * @param s_queue Pointer to the queue.
  */
-void add_order_front(Order s_order, Queue *s_queue);
+bool add_order_front(Order s_order, Queue *s_queue);
 
 /**
  * @brief Adds an order to the back of the queue.
@@ -93,7 +93,7 @@ void add_order_front(Order s_order, Queue *s_queue);
  * @param s_order The order to add.
  * @param s_queue Pointer to the queue.
  */
-void add_order_back(Order s_order, Queue *s_queue);
+bool add_order_back(Order s_order, Queue *s_queue);
 
 /**
  * @brief Removes a specific order node from the queue and frees its memory.

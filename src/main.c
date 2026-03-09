@@ -29,9 +29,9 @@ main ()
             for (int button = 0; button < N_BUTTONS; button++)
             {
                 int button_pressed = elevio_callButton(floor, button);
-                elevio_buttonLamp(floor, button, button_pressed);
                 if (button_pressed && elevator->m_state != STOPPED)
                 {
+
                     Order new_order;
                     new_order.m_floor     = floor;
                     new_order.m_direction = button;
@@ -39,15 +39,27 @@ main ()
                     {
                         case BUTTON_HALL_UP:
                             new_order.m_direction = DIRN_UP;
-                            add_order_back(new_order, queue);
+                            if (add_order_back(new_order, queue))
+                            {
+                                elevio_buttonLamp(
+                                    floor, button, button_pressed);
+                            }
                             break;
                         case BUTTON_HALL_DOWN:
                             new_order.m_direction = DIRN_DOWN;
-                            add_order_back(new_order, queue);
+                            if (add_order_back(new_order, queue))
+                            {
+                                elevio_buttonLamp(
+                                    floor, button, button_pressed);
+                            }
                             break;
                         case BUTTON_CAB:
                             new_order.m_direction = DIRN_STOP;
-                            add_order_front(new_order, queue);
+                            if (add_order_front(new_order, queue))
+                            {
+                                elevio_buttonLamp(
+                                    floor, button, button_pressed);
+                            }
                             break;
                     }
                 }

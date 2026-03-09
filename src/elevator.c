@@ -45,7 +45,7 @@ stop_elevator (Elevator *s_elevator, Queue *s_queue)
     }
 }
 
-void
+bool
 add_order_front (Order s_order, Queue *s_queue)
 {
     Elevator s_elevator;
@@ -68,10 +68,12 @@ add_order_front (Order s_order, Queue *s_queue)
         {
             s_queue->m_stop = s_new_node;
         }
+        return true;
     }
+    return false;
 }
 
-void
+bool
 add_order_back (Order s_order, Queue *s_queue)
 {
     Elevator s_elevator;
@@ -94,7 +96,9 @@ add_order_back (Order s_order, Queue *s_queue)
         {
             s_queue->m_start = s_new_node;
         }
+        return true;
     }
+    return false;
 }
 
 void
@@ -195,6 +199,10 @@ delete_serviced_orders (Elevator *s_elevator, Queue *s_queue)
         }
 
         current_node = current_node->m_next;
+    }
+    for (int button = 0; button < N_BUTTONS; button++)
+    {
+        elevio_buttonLamp(s_elevator->m_current_floor, button, 0);
     }
 }
 
