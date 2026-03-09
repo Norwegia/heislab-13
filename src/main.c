@@ -74,11 +74,12 @@ main ()
                     stop_elevator(elevator, queue);
                 }
 
-                if (elevio_floorSensor() != -1
-                    && elevio_floorSensor() != elevator->m_current_floor)
+                int floor_reading = elevio_floorSensor();
+                if (floor_reading != -1
+                    && floor_reading != elevator->m_current_floor)
                 {
-                    printf("at new floor: %d\n", elevio_floorSensor());
-                    elevator->m_current_floor = elevio_floorSensor();
+                    printf("at new floor: %d\n", floor_reading);
+                    elevator->m_current_floor = floor_reading;
                     printf("set new floor: %d\n", elevator->m_current_floor);
                     elevio_floorIndicator(elevator->m_current_floor);
                     if (check_orders(elevator, queue))
