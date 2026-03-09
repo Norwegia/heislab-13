@@ -12,15 +12,15 @@ main ()
 
     Elevator *elevator             = (Elevator *)malloc(sizeof(Elevator));
     Queue    *queue                = (Queue *)malloc(sizeof(Queue));
-    time_t  *stop_start_time      = NULL;
-    time_t  *servicing_start_time = NULL;
+    time_t   *stop_start_time      = NULL;
+    time_t   *servicing_start_time = NULL;
 
     elevio_init();
     while (elevio_floorSensor() == -1)
     {
         elevio_motorDirection(DIRN_DOWN);
     }
-    
+
     elevator->m_state         = IDLE_CLOSED;
     elevator->m_direction     = DIRN_DOWN;
     elevator->m_current_floor = elevio_floorSensor();
@@ -33,7 +33,7 @@ main ()
 
     queue->m_start = NULL;
     queue->m_stop  = NULL;
-    
+
     while (1)
     {
 
@@ -66,8 +66,7 @@ main ()
                 }
             }
         }
-        
-        
+
         switch (elevator->m_state)
         {
             case MOVING:
@@ -75,9 +74,9 @@ main ()
                 {
                     stop_elevator(elevator, queue);
                 }
-                
-                
-                if (elevio_floorSensor() != -1 && elevio_floorSensor() != elevator->m_current_floor)
+
+                if (elevio_floorSensor() != -1
+                    && elevio_floorSensor() != elevator->m_current_floor)
                 {
                     printf("at new floor: %d\n", elevio_floorSensor());
                     elevator->m_current_floor = elevio_floorSensor();
@@ -86,7 +85,7 @@ main ()
                     if (check_orders(elevator, queue))
                     {
                         elevio_motorDirection(DIRN_STOP);
-                        elevator->m_state = SERVICING;
+                        elevator->m_state     = SERVICING;
                         elevator->m_door_open = 1;
                         elevio_doorOpenLamp(1);
                     }
@@ -108,7 +107,8 @@ main ()
                     }
                     else
                     {
-                        double time_elapsed = ((double)(time(0) - *stop_start_time));
+                        double time_elapsed
+                            = ((double)(time(0) - *stop_start_time));
                         if (time_elapsed >= 3)
                         {
                             if (elevio_obstruction())
@@ -132,15 +132,20 @@ main ()
                     elevio_stopLamp(0);
                     elevator->m_state = IDLE_CLOSED;
                     Order return_to_story_order;
-                    if (elevator->m_current_floor == N_FLOORS - 1) {
-                        return_to_story_order.m_floor = N_FLOORS - 2;
+                    if (elevator->m_current_floor == N_FLOORS - 1)
+                    {
+                        return_to_story_order.m_floor     = N_FLOORS - 2;
                         return_to_story_order.m_direction = DIRN_DOWN;
-
-                    } else if (elevator->m_current_floor == 0) {
-                        return_to_story_order.m_floor = 1;
+                    }
+                    else if (elevator->m_current_floor == 0)
+                    {
+                        return_to_story_order.m_floor     = 1;
                         return_to_story_order.m_direction = DIRN_UP;
-                    } else {
-                        return_to_story_order.m_floor = elevator->m_current_floor - 1;
+                    }
+                    else
+                    {
+                        return_to_story_order.m_floor
+                            = elevator->m_current_floor - 1;
                         return_to_story_order.m_direction = DIRN_DOWN;
                     }
 
@@ -167,7 +172,7 @@ main ()
                     }
 
                     if (elevator->m_current_floor
-                             > queue->m_start->m_order.m_floor)
+                        > queue->m_start->m_order.m_floor)
                     {
                         printf("lets go down\n");
                         elevator->m_state     = MOVING;
@@ -199,7 +204,8 @@ main ()
                 }
                 else
                 {
-                    double time_elapsed = ((double)(time(0) - *servicing_start_time));
+                    double time_elapsed
+                        = ((double)(time(0) - *servicing_start_time));
                     printf("time elapsed: %f\n", time_elapsed);
                     if (time_elapsed >= 3.0)
                     {
