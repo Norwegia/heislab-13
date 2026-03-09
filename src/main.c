@@ -104,7 +104,6 @@ main ()
                             }
                             else
                             {
-                                stop_start_time       = NULL;
                                 elevator->m_state     = IDLE_CLOSED;
                                 elevator->m_door_open = 0;
                                 elevio_doorOpenLamp(0);
@@ -170,6 +169,10 @@ main ()
                     servicing_start_time  = (time_t *)malloc(sizeof(time_t));
                     *servicing_start_time = time(0);
                 }
+                else if (elevio_obstruction())
+                {
+                    *servicing_start_time = time(0);
+                }
                 else
                 {
                     double time_elapsed
@@ -177,20 +180,12 @@ main ()
                     printf("time elapsed: %f\n", time_elapsed);
                     if (time_elapsed >= 3.0)
                     {
-                        printf("nuff time has elapsed\n");
-                        if (elevio_obstruction())
-                        {
-                            *servicing_start_time = time(0);
-                        }
-                        else
-                        {
-                            elevator->m_state     = IDLE_CLOSED;
-                            elevator->m_door_open = 0;
-                            elevio_doorOpenLamp(0);
-                            free(servicing_start_time);
-                            servicing_start_time = NULL;
-                            delete_serviced_orders(elevator, queue);
-                        }
+                        elevator->m_state     = IDLE_CLOSED;
+                        elevator->m_door_open = 0;
+                        elevio_doorOpenLamp(0);
+                        free(servicing_start_time);
+                        servicing_start_time = NULL;
+                        delete_serviced_orders(elevator, queue);
                     }
                 }
                 break;
