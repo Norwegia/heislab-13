@@ -106,24 +106,21 @@ main ()
                         stop_start_time  = (time_t *)malloc(sizeof(time_t));
                         *stop_start_time = time(0);
                     }
+                    else if (elevio_obstruction())
+                    {
+                        *stop_start_time = time(0);
+                    }
                     else
                     {
                         double time_elapsed
                             = ((double)(time(0) - *stop_start_time));
                         if (time_elapsed >= 3)
                         {
-                            if (elevio_obstruction())
-                            {
-                                *stop_start_time = time(0);
-                            }
-                            else
-                            {
-                                elevator->m_state     = IDLE_CLOSED;
-                                elevator->m_door_open = 0;
-                                elevio_doorOpenLamp(0);
-                                free(stop_start_time);
-                                stop_start_time = NULL;
-                            }
+                            elevator->m_state     = IDLE_CLOSED;
+                            elevator->m_door_open = 0;
+                            elevio_doorOpenLamp(0);
+                            free(stop_start_time);
+                            stop_start_time = NULL;
                         }
                     }
                 }
