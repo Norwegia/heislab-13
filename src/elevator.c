@@ -162,8 +162,6 @@ check_orders (Elevator *s_elevator, Queue *s_queue)
                  && current_node->m_order.m_floor
                         == s_elevator->m_current_floor)
         {
-                   current_node->m_order.m_floor,
-                   current_node->m_order.m_direction);
             return true;
         }
 
