@@ -133,6 +133,11 @@ remove_order (DllNode *s_order_dll_node, Queue *s_queue)
             s_queue->m_stop  = NULL;
         }
     }
+    else if (s_prev_node)
+    {
+        s_prev_node->m_next = s_next_node;
+        s_next_node->m_prev = s_prev_node;
+    }
 
     free(s_order_dll_node);
     s_order_dll_node = NULL;

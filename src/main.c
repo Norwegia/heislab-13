@@ -184,7 +184,6 @@ main ()
                         }
                         else
                         {
-                            servicing_start_time  = NULL;
                             elevator->m_state     = IDLE_CLOSED;
                             elevator->m_door_open = 0;
                             elevio_doorOpenLamp(0);
