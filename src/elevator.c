@@ -14,13 +14,13 @@ move_elevator_to_defined_state (Elevator *s_elevator)
         elevio_motorDirection(DIRN_DOWN);
     }
 
-    elevator->m_state         = IDLE_CLOSED;
-    elevator->m_direction     = DIRN_DOWN;
-    elevator->m_current_floor = elevio_floorSensor();
-    elevator->m_door_open     = 0;
+    s_elevator->m_state         = IDLE_CLOSED;
+    s_elevator->m_direction     = DIRN_DOWN;
+    s_elevator->m_current_floor = elevio_floorSensor();
+    s_elevator->m_door_open     = 0;
 
     elevio_motorDirection(DIRN_STOP);
-    elevio_floorIndicator(elevator->m_current_floor);
+    elevio_floorIndicator(s_elevator->m_current_floor);
     elevio_doorOpenLamp(0);
     elevio_stopLamp(0);
 }
