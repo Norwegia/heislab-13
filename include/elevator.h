@@ -59,6 +59,18 @@ typedef struct Queue
 } Queue;
 
 /**
+ * @brief Moves the elevator down until it reaches a valid floor, then
+ * initialises it to a defined idle state.
+ *
+ * Drives the motor downward until the floor sensor detects a floor, then stops
+ * the motor, sets the state to IDLE_CLOSED, and updates the floor indicator,
+ * door lamp, and stop lamp accordingly.
+ *
+ * @param s_elevator Pointer to the elevator.
+ */
+void move_elevator_to_defined_state(Elevator *s_elevator);
+
+/**
  * @brief Stops the elevator, clears the queue, and transitions to the stopped
  * state.
  *

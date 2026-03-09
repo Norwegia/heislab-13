@@ -7,6 +7,25 @@
 #include <stdio.h>
 
 void
+move_elevator_to_defined_state (Elevator *s_elevator)
+{
+    while (elevio_floorSensor() == -1)
+    {
+        elevio_motorDirection(DIRN_DOWN);
+    }
+
+    elevator->m_state         = IDLE_CLOSED;
+    elevator->m_direction     = DIRN_DOWN;
+    elevator->m_current_floor = elevio_floorSensor();
+    elevator->m_door_open     = 0;
+
+    elevio_motorDirection(DIRN_STOP);
+    elevio_floorIndicator(elevator->m_current_floor);
+    elevio_doorOpenLamp(0);
+    elevio_stopLamp(0);
+}
+
+void
 stop_elevator (Elevator *s_elevator, Queue *s_queue)
 {
 

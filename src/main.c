@@ -16,20 +16,7 @@ main ()
     time_t   *servicing_start_time = NULL;
 
     elevio_init();
-    while (elevio_floorSensor() == -1)
-    {
-        elevio_motorDirection(DIRN_DOWN);
-    }
-
-    elevator->m_state         = IDLE_CLOSED;
-    elevator->m_direction     = DIRN_DOWN;
-    elevator->m_current_floor = elevio_floorSensor();
-    elevator->m_door_open     = 0;
-
-    elevio_motorDirection(DIRN_STOP);
-    elevio_floorIndicator(elevator->m_current_floor);
-    elevio_doorOpenLamp(0);
-    elevio_stopLamp(0);
+    move_elevator_to_defined_state(elevator);
 
     queue->m_start = NULL;
     queue->m_stop  = NULL;
@@ -130,26 +117,7 @@ main ()
                 else
                 {
                     elevio_stopLamp(0);
-                    elevator->m_state = IDLE_CLOSED;
-                    Order return_to_story_order;
-                    if (elevator->m_current_floor == N_FLOORS - 1)
-                    {
-                        return_to_story_order.m_floor     = N_FLOORS - 2;
-                        return_to_story_order.m_direction = DIRN_DOWN;
-                    }
-                    else if (elevator->m_current_floor == 0)
-                    {
-                        return_to_story_order.m_floor     = 1;
-                        return_to_story_order.m_direction = DIRN_UP;
-                    }
-                    else
-                    {
-                        return_to_story_order.m_floor
-                            = elevator->m_current_floor - 1;
-                        return_to_story_order.m_direction = DIRN_DOWN;
-                    }
-
-                    add_order_front(return_to_story_order, queue);
+                    move_elevator_to_defined_state(elevator);
                 }
                 break;
 
