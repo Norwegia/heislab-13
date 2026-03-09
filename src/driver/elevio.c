@@ -17,7 +17,7 @@ elevio_init (void)
 {
     char ip[16]  = "localhost";
     char port[8] = "15657";
-    con_load("source/driver/elevio.con",
+    con_load("src/driver/elevio.con",
              con_val("com_ip", ip, "%s") con_val("com_port", port, "%s"))
 
         pthread_mutex_init(&sockmtx, NULL);

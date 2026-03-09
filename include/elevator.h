@@ -59,14 +59,16 @@ typedef struct Queue
 } Queue;
 
 /**
- * @brief Clamps a value between a minimum and maximum bound.
+ * @brief Moves the elevator down until it reaches a valid floor, then
+ * initialises it to a defined idle state.
  *
- * @param min The lower bound.
- * @param max The upper bound.
- * @param val The value to clamp.
- * @return The clamped value.
+ * Drives the motor downward until the floor sensor detects a floor, then stops
+ * the motor, sets the state to IDLE_CLOSED, and updates the floor indicator,
+ * door lamp, and stop lamp accordingly.
+ *
+ * @param s_elevator Pointer to the elevator.
  */
-int saturate(int min, int max, int val);
+void move_elevator_to_defined_state(Elevator *s_elevator);
 
 /**
  * @brief Stops the elevator, clears the queue, and transitions to the stopped
@@ -83,7 +85,7 @@ void stop_elevator(Elevator *s_elevator, Queue *s_queue);
  * @param s_order The order to add.
  * @param s_queue Pointer to the queue.
  */
-void add_order_front(Order s_order, Queue *s_queue);
+bool add_order_front(Order s_order, Queue *s_queue);
 
 /**
  * @brief Adds an order to the back of the queue.
@@ -91,7 +93,7 @@ void add_order_front(Order s_order, Queue *s_queue);
  * @param s_order The order to add.
  * @param s_queue Pointer to the queue.
  */
-void add_order_back(Order s_order, Queue *s_queue);
+bool add_order_back(Order s_order, Queue *s_queue);
 
 /**
  * @brief Removes a specific order node from the queue and frees its memory.
@@ -109,7 +111,9 @@ void remove_order(DllNode *s_order_dll_node, Queue *s_queue);
  * @param s_queue    Pointer to the queue.
  * @return true  if a matching order exists, false otherwise.
  */
-bool check_orders(Elevator *s_elevator, Queue *s_queue);
+bool check_serviceable_orders(Elevator *s_elevator, Queue *s_queue);
+
+bool check_duplicate_orders(Elevator *s_elevator, Queue *s_queue);
 
 /**
  * @brief Deletes all orders that match the current floor and elevator movement
@@ -126,3 +130,5 @@ void delete_serviced_orders(Elevator *s_elevator, Queue *s_queue);
  * @param s_queue Pointer to the queue.
  */
 void delete_all_orders(Queue *s_queue);
+
+void turn_off_all_button_lights();
