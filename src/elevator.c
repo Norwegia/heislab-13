@@ -202,6 +202,9 @@ delete_serviced_orders (Elevator *s_elevator, Queue *s_queue)
     }
     for (int button = 0; button < N_BUTTONS; button++)
     {
+        printf("Turning off button %d in story %d",
+               button,
+               s_elevator->m_current_floor);
         elevio_buttonLamp(s_elevator->m_current_floor, button, 0);
     }
 }
