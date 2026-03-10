@@ -56,7 +56,7 @@ main ()
                             break;
                         case BUTTON_CAB:
                             new_order.m_direction = DIRN_STOP;
-                            if (add_order_front(new_order, queue))
+                            if (add_order_back(new_order, queue))
                             {
                                 elevio_buttonLamp(
                                     floor, button, button_pressed);
