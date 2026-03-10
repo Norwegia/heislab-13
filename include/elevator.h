@@ -74,6 +74,9 @@ void move_elevator_to_defined_state(Elevator *s_elevator);
  * @brief Stops the elevator, clears the queue, and transitions to the stopped
  * state.
  *
+ * Halts the motor, activates the stop lamp, deletes all queued orders, and
+ * opens the door lamp if the elevator is currently at a floor.
+ *
  * @param s_elevator Pointer to the elevator.
  * @param s_queue    Pointer to the queue.
  */
@@ -82,16 +85,22 @@ void stop_elevator(Elevator *s_elevator, Queue *s_queue);
 /**
  * @brief Adds an order to the front of the queue.
  *
+ * Does nothing if an identical order already exists in the queue.
+ *
  * @param s_order The order to add.
  * @param s_queue Pointer to the queue.
+ * @return true  if the order was added, false if it was a duplicate.
  */
 bool add_order_front(Order s_order, Queue *s_queue);
 
 /**
  * @brief Adds an order to the back of the queue.
  *
+ * Does nothing if an identical order already exists in the queue.
+ *
  * @param s_order The order to add.
  * @param s_queue Pointer to the queue.
+ * @return true  if the order was added, false if it was a duplicate.
  */
 bool add_order_back(Order s_order, Queue *s_queue);
 
@@ -113,11 +122,20 @@ void remove_order(DllNode *s_order_dll_node, Queue *s_queue);
  */
 bool check_serviceable_orders(Elevator *s_elevator, Queue *s_queue);
 
+/**
+ * @brief Checks whether the queue already contains an order that can be
+ * serviced.
+ *
+ * @param s_elevator Pointer to the elevator (floor and direction used for
+ *                   comparison).
+ * @param s_queue    Pointer to the queue.
+ * @return true  if a duplicate order exists, false otherwise.
+ */
 bool check_duplicate_orders(Elevator *s_elevator, Queue *s_queue);
 
 /**
- * @brief Deletes all orders that match the current floor and elevator movement
- * direction.
+ * @brief Removes all orders at the elevator's current floor and turns off their
+ * button lamps.
  *
  * @param s_elevator Pointer to the elevator.
  * @param s_queue    Pointer to the queue.
@@ -125,10 +143,14 @@ bool check_duplicate_orders(Elevator *s_elevator, Queue *s_queue);
 void delete_serviced_orders(Elevator *s_elevator, Queue *s_queue);
 
 /**
- * @brief Removes all orders from the queue and frees their memory.
+ * @brief Removes all orders from the queue, frees their memory, and turns off
+ * all button lamps.
  *
  * @param s_queue Pointer to the queue.
  */
 void delete_all_orders(Queue *s_queue);
 
+/**
+ * @brief Turns off all button lamps for every floor and button type.
+ */
 void turn_off_all_button_lights();
