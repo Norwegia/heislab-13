@@ -1,0 +1,147 @@
+\doxysection{src/elevator.c File Reference}
+\hypertarget{elevator_8c}{}\label{elevator_8c}\index{src/elevator.c@{src/elevator.c}}
+
+
+implementation of utility functions in elevator.\+h  
+
+
+{\ttfamily \#include "{}elevator.\+h"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{elevator_8c_a3c2ff28fdd45a64cd8fee82c7aa15b56}{move\+\_\+elevator\+\_\+to\+\_\+defined\+\_\+state}} (Elevator \texorpdfstring{$\ast$}{*}s\+\_\+elevator)
+\item 
+void \mbox{\hyperlink{elevator_8c_a33668c2cdefceeeb7a7c69b78e42b031}{stop\+\_\+elevator}} (Elevator \texorpdfstring{$\ast$}{*}s\+\_\+elevator, Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+bool \mbox{\hyperlink{elevator_8c_a3289397ec085822de830918cc2391bbe}{add\+\_\+order\+\_\+front}} (Order s\+\_\+order, Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+bool \mbox{\hyperlink{elevator_8c_ae75f8c75835c4bdf2c588310c5e91008}{add\+\_\+order\+\_\+back}} (Order s\+\_\+order, Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+void \mbox{\hyperlink{elevator_8c_a3475cfe7b7f24a91e9e0121e7d28b459}{remove\+\_\+order}} (Dll\+Node \texorpdfstring{$\ast$}{*}s\+\_\+order\+\_\+dll\+\_\+node, Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+bool \mbox{\hyperlink{elevator_8c_a66347600ab0c0769075c2a633600a825}{check\+\_\+serviceable\+\_\+orders}} (Elevator \texorpdfstring{$\ast$}{*}s\+\_\+elevator, Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+bool \mbox{\hyperlink{elevator_8c_a73659c93301790674fd3abf5e6b96977}{check\+\_\+duplicate\+\_\+orders}} (Elevator \texorpdfstring{$\ast$}{*}s\+\_\+elevator, Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+void \mbox{\hyperlink{elevator_8c_a81e6190e0d466ed6fd84fc2413f126f3}{delete\+\_\+serviced\+\_\+orders}} (Elevator \texorpdfstring{$\ast$}{*}s\+\_\+elevator, Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+void \mbox{\hyperlink{elevator_8c_a3930fc2b2278583635f779c3b1f407f7}{delete\+\_\+all\+\_\+orders}} (Queue \texorpdfstring{$\ast$}{*}s\+\_\+queue)
+\item 
+void \mbox{\hyperlink{elevator_8c_a0638f7ff66a30cba9d21ffe35c054722}{turn\+\_\+off\+\_\+all\+\_\+button\+\_\+lights}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+implementation of utility functions in elevator.\+h 
+
+
+
+Definition in file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{elevator_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{elevator_8c_ae75f8c75835c4bdf2c588310c5e91008}\index{elevator.c@{elevator.c}!add\_order\_back@{add\_order\_back}}
+\index{add\_order\_back@{add\_order\_back}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{add\_order\_back()}{add\_order\_back()}}
+{\footnotesize\ttfamily \label{elevator_8c_ae75f8c75835c4bdf2c588310c5e91008} 
+bool add\+\_\+order\+\_\+back (\begin{DoxyParamCaption}\item[{Order}]{s\+\_\+order}{, }\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00077}{77}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a3289397ec085822de830918cc2391bbe}\index{elevator.c@{elevator.c}!add\_order\_front@{add\_order\_front}}
+\index{add\_order\_front@{add\_order\_front}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{add\_order\_front()}{add\_order\_front()}}
+{\footnotesize\ttfamily \label{elevator_8c_a3289397ec085822de830918cc2391bbe} 
+bool add\+\_\+order\+\_\+front (\begin{DoxyParamCaption}\item[{Order}]{s\+\_\+order}{, }\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00050}{50}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a73659c93301790674fd3abf5e6b96977}\index{elevator.c@{elevator.c}!check\_duplicate\_orders@{check\_duplicate\_orders}}
+\index{check\_duplicate\_orders@{check\_duplicate\_orders}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{check\_duplicate\_orders()}{check\_duplicate\_orders()}}
+{\footnotesize\ttfamily \label{elevator_8c_a73659c93301790674fd3abf5e6b96977} 
+bool check\+\_\+duplicate\+\_\+orders (\begin{DoxyParamCaption}\item[{Elevator \texorpdfstring{$\ast$}{*}}]{s\+\_\+elevator}{, }\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00175}{175}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a66347600ab0c0769075c2a633600a825}\index{elevator.c@{elevator.c}!check\_serviceable\_orders@{check\_serviceable\_orders}}
+\index{check\_serviceable\_orders@{check\_serviceable\_orders}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{check\_serviceable\_orders()}{check\_serviceable\_orders()}}
+{\footnotesize\ttfamily \label{elevator_8c_a66347600ab0c0769075c2a633600a825} 
+bool check\+\_\+serviceable\+\_\+orders (\begin{DoxyParamCaption}\item[{Elevator \texorpdfstring{$\ast$}{*}}]{s\+\_\+elevator}{, }\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00147}{147}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a3930fc2b2278583635f779c3b1f407f7}\index{elevator.c@{elevator.c}!delete\_all\_orders@{delete\_all\_orders}}
+\index{delete\_all\_orders@{delete\_all\_orders}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{delete\_all\_orders()}{delete\_all\_orders()}}
+{\footnotesize\ttfamily \label{elevator_8c_a3930fc2b2278583635f779c3b1f407f7} 
+void delete\+\_\+all\+\_\+orders (\begin{DoxyParamCaption}\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00221}{221}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a81e6190e0d466ed6fd84fc2413f126f3}\index{elevator.c@{elevator.c}!delete\_serviced\_orders@{delete\_serviced\_orders}}
+\index{delete\_serviced\_orders@{delete\_serviced\_orders}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{delete\_serviced\_orders()}{delete\_serviced\_orders()}}
+{\footnotesize\ttfamily \label{elevator_8c_a81e6190e0d466ed6fd84fc2413f126f3} 
+void delete\+\_\+serviced\+\_\+orders (\begin{DoxyParamCaption}\item[{Elevator \texorpdfstring{$\ast$}{*}}]{s\+\_\+elevator}{, }\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00192}{192}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a3c2ff28fdd45a64cd8fee82c7aa15b56}\index{elevator.c@{elevator.c}!move\_elevator\_to\_defined\_state@{move\_elevator\_to\_defined\_state}}
+\index{move\_elevator\_to\_defined\_state@{move\_elevator\_to\_defined\_state}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{move\_elevator\_to\_defined\_state()}{move\_elevator\_to\_defined\_state()}}
+{\footnotesize\ttfamily \label{elevator_8c_a3c2ff28fdd45a64cd8fee82c7aa15b56} 
+void move\+\_\+elevator\+\_\+to\+\_\+defined\+\_\+state (\begin{DoxyParamCaption}\item[{Elevator \texorpdfstring{$\ast$}{*}}]{s\+\_\+elevator}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00010}{10}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a3475cfe7b7f24a91e9e0121e7d28b459}\index{elevator.c@{elevator.c}!remove\_order@{remove\_order}}
+\index{remove\_order@{remove\_order}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{remove\_order()}{remove\_order()}}
+{\footnotesize\ttfamily \label{elevator_8c_a3475cfe7b7f24a91e9e0121e7d28b459} 
+void remove\+\_\+order (\begin{DoxyParamCaption}\item[{Dll\+Node \texorpdfstring{$\ast$}{*}}]{s\+\_\+order\+\_\+dll\+\_\+node}{, }\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00104}{104}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a33668c2cdefceeeb7a7c69b78e42b031}\index{elevator.c@{elevator.c}!stop\_elevator@{stop\_elevator}}
+\index{stop\_elevator@{stop\_elevator}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{stop\_elevator()}{stop\_elevator()}}
+{\footnotesize\ttfamily \label{elevator_8c_a33668c2cdefceeeb7a7c69b78e42b031} 
+void stop\+\_\+elevator (\begin{DoxyParamCaption}\item[{Elevator \texorpdfstring{$\ast$}{*}}]{s\+\_\+elevator}{, }\item[{Queue \texorpdfstring{$\ast$}{*}}]{s\+\_\+queue}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00029}{29}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
+\Hypertarget{elevator_8c_a0638f7ff66a30cba9d21ffe35c054722}\index{elevator.c@{elevator.c}!turn\_off\_all\_button\_lights@{turn\_off\_all\_button\_lights}}
+\index{turn\_off\_all\_button\_lights@{turn\_off\_all\_button\_lights}!elevator.c@{elevator.c}}
+\doxysubsubsection{\texorpdfstring{turn\_off\_all\_button\_lights()}{turn\_off\_all\_button\_lights()}}
+{\footnotesize\ttfamily \label{elevator_8c_a0638f7ff66a30cba9d21ffe35c054722} 
+void turn\+\_\+off\+\_\+all\+\_\+button\+\_\+lights (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{elevator_8c_source_l00231}{231}} of file \mbox{\hyperlink{elevator_8c_source}{elevator.\+c}}.
+
