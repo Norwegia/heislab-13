@@ -1,0 +1,244 @@
+\doxysection{elevator.\+c}
+\hypertarget{elevator_8c_source}{}\label{elevator_8c_source}\index{src/elevator.c@{src/elevator.c}}
+\mbox{\hyperlink{elevator_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}elevator.h"{}}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00009}00009\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00010}00010\ move\_elevator\_to\_defined\_state\ (Elevator\ *s\_elevator)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00011}00011\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00012}00012\ \ \ \ \ \textcolor{keywordflow}{while}\ (elevio\_floorSensor()\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00013}00013\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00014}00014\ \ \ \ \ \ \ \ \ elevio\_motorDirection(DIRN\_DOWN);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00015}00015\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00017}00017\ \ \ \ \ s\_elevator-\/>m\_state\ \ \ \ \ \ \ \ \ =\ IDLE\_CLOSED;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00018}00018\ \ \ \ \ s\_elevator-\/>m\_direction\ \ \ \ \ =\ DIRN\_DOWN;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00019}00019\ \ \ \ \ s\_elevator-\/>m\_current\_floor\ =\ elevio\_floorSensor();}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00020}00020\ \ \ \ \ s\_elevator-\/>m\_door\_open\ \ \ \ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00022}00022\ \ \ \ \ elevio\_motorDirection(DIRN\_STOP);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00023}00023\ \ \ \ \ elevio\_floorIndicator(s\_elevator-\/>m\_current\_floor);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00024}00024\ \ \ \ \ elevio\_doorOpenLamp(0);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00025}00025\ \ \ \ \ elevio\_stopLamp(0);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00026}00026\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00028}00028\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00029}00029\ stop\_elevator\ (Elevator\ *s\_elevator,\ Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00030}00030\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00032}00032\ \ \ \ \ elevio\_motorDirection(DIRN\_STOP);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00033}00033\ \ \ \ \ elevio\_stopLamp(1);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00034}00034\ \ \ \ \ s\_elevator-\/>m\_state\ =\ STOPPED;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00035}00035\ \ \ \ \ delete\_all\_orders(s\_queue);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (elevio\_floorSensor()\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00038}00038\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ s\_elevator-\/>m\_door\_open\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ elevio\_doorOpenLamp(0);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00043}00043\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ s\_elevator-\/>m\_door\_open\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ elevio\_doorOpenLamp(1);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00047}00047\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00049}00049\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00050}00050\ add\_order\_front\ (Order\ s\_order,\ Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00051}00051\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00052}00052\ \ \ \ \ Elevator\ s\_elevator;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00053}00053\ \ \ \ \ s\_elevator.m\_current\_floor\ =\ s\_order.m\_floor;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00054}00054\ \ \ \ \ s\_elevator.m\_direction\ \ \ \ \ =\ s\_order.m\_direction;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00055}00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (!check\_duplicate\_orders(\&s\_elevator,\ s\_queue))}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00056}00056\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00058}00058\ \ \ \ \ \ \ \ \ DllNode\ *s\_new\_node\ =\ (DllNode\ *)malloc(\textcolor{keyword}{sizeof}(DllNode));}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00059}00059\ \ \ \ \ \ \ \ \ s\_new\_node-\/>m\_prev\ \ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00060}00060\ \ \ \ \ \ \ \ \ s\_new\_node-\/>m\_next\ \ =\ s\_queue-\/>m\_start;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ s\_new\_node-\/>m\_order\ =\ s\_order;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_queue-\/>m\_start\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00063}00063\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_start-\/>m\_prev\ =\ s\_new\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00066}00066\ \ \ \ \ \ \ \ \ s\_queue-\/>m\_start\ =\ s\_new\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_queue-\/>m\_stop\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00068}00068\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_stop\ =\ s\_new\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00072}00072\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00073}00073\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00074}00074\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00076}00076\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00077}00077\ add\_order\_back\ (Order\ s\_order,\ Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00078}00078\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00079}00079\ \ \ \ \ Elevator\ s\_elevator;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00080}00080\ \ \ \ \ s\_elevator.m\_current\_floor\ =\ s\_order.m\_floor;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00081}00081\ \ \ \ \ s\_elevator.m\_direction\ \ \ \ \ =\ s\_order.m\_direction;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00082}00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (!check\_duplicate\_orders(\&s\_elevator,\ s\_queue))}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00083}00083\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ DllNode\ *s\_new\_node\ =\ (DllNode\ *)malloc(\textcolor{keyword}{sizeof}(DllNode));}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00086}00086\ \ \ \ \ \ \ \ \ s\_new\_node-\/>m\_next\ \ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00087}00087\ \ \ \ \ \ \ \ \ s\_new\_node-\/>m\_prev\ \ =\ s\_queue-\/>m\_stop;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ s\_new\_node-\/>m\_order\ =\ s\_order;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_queue-\/>m\_stop\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_stop-\/>m\_next\ =\ s\_new\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ s\_queue-\/>m\_stop\ =\ s\_new\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_queue-\/>m\_start\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_start\ =\ s\_new\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00099}00099\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00101}00101\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00103}00103\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00104}00104\ remove\_order\ (DllNode\ *s\_order\_dll\_node,\ Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00105}00105\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00106}00106\ \ \ \ \ DllNode\ *s\_prev\_node\ =\ s\_order\_dll\_node-\/>m\_prev;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00107}00107\ \ \ \ \ DllNode\ *s\_next\_node\ =\ s\_order\_dll\_node-\/>m\_next;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_prev\_node\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00110}00110\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_next\_node\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00112}00112\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ s\_next\_node-\/>m\_prev\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_start\ \ \ \ =\ s\_next\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00115}00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00117}00117\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_start\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_stop\ \ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00120}00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00121}00121\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_next\_node\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00124}00124\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_prev\_node\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00126}00126\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ s\_prev\_node-\/>m\_next\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_stop\ \ \ \ \ =\ s\_prev\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00129}00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00131}00131\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_start\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ s\_queue-\/>m\_stop\ \ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00134}00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00135}00135\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00136}00136\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (s\_prev\_node\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00137}00137\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00138}00138\ \ \ \ \ \ \ \ \ s\_prev\_node-\/>m\_next\ =\ s\_next\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00139}00139\ \ \ \ \ \ \ \ \ s\_next\_node-\/>m\_prev\ =\ s\_prev\_node;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00140}00140\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00142}00142\ \ \ \ \ free(s\_order\_dll\_node);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00143}00143\ \ \ \ \ s\_order\_dll\_node\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00144}00144\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00146}00146\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00147}00147\ check\_serviceable\_orders\ (Elevator\ *s\_elevator,\ Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00148}00148\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00149}00149\ \ \ \ \ DllNode\ *current\_node\ =\ s\_queue-\/>m\_start;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_elevator-\/>m\_current\_floor\ ==\ s\_queue-\/>m\_start-\/>m\_order.m\_floor)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00152}00152\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00154}00154\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00155}00155\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\_node\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00156}00156\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_node-\/>m\_order.m\_direction\ ==\ DIRN\_STOP}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ current\_node-\/>m\_order.m\_floor\ ==\ s\_elevator-\/>m\_current\_floor)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00159}00159\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00161}00161\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_node-\/>m\_order.m\_direction\ ==\ s\_elevator-\/>m\_direction}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ current\_node-\/>m\_order.m\_floor\ ==\ s\_elevator-\/>m\_current\_floor)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00164}00164\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00166}00166\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00168}00168\ \ \ \ \ \ \ \ \ current\_node\ =\ current\_node-\/>m\_next;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00169}00169\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00171}00171\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00172}00172\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00174}00174\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00175}00175\ check\_duplicate\_orders\ (Elevator\ *s\_elevator,\ Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00176}00176\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00177}00177\ \ \ \ \ DllNode\ *current\_node\ =\ s\_queue-\/>m\_start;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00179}00179\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\_node\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00180}00180\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_node-\/>m\_order.m\_direction\ ==\ s\_elevator-\/>m\_direction}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ current\_node-\/>m\_order.m\_floor\ ==\ s\_elevator-\/>m\_current\_floor)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00183}00183\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00185}00185\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00186}00186\ \ \ \ \ \ \ \ \ current\_node\ =\ current\_node-\/>m\_next;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00187}00187\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00189}00189\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00191}00191\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00192}00192\ delete\_serviced\_orders\ (Elevator\ *s\_elevator,\ Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00193}00193\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00194}00194\ \ \ \ \ DllNode\ *current\_node\ =\ s\_queue-\/>m\_start;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00196}00196\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\_node\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00197}00197\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_node-\/>m\_order.m\_floor\ ==\ s\_elevator-\/>m\_current\_floor)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00200}00200\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_node-\/>m\_next\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ remove\_order(current\_node,\ s\_queue);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ current\_node\ =\ current\_node-\/>m\_next;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ remove\_order(current\_node-\/>m\_prev,\ s\_queue);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00210}00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00212}00212\ \ \ \ \ \ \ \ \ current\_node\ =\ current\_node-\/>m\_next;}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00213}00213\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00214}00214\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ button\ =\ 0;\ button\ <\ N\_BUTTONS;\ button++)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00215}00215\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00216}00216\ \ \ \ \ \ \ \ \ elevio\_buttonLamp(s\_elevator-\/>m\_current\_floor,\ button,\ 0);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00217}00217\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00218}00218\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00220}00220\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00221}00221\ delete\_all\_orders\ (Queue\ *s\_queue)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00222}00222\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00223}00223\ \ \ \ \ \textcolor{keywordflow}{while}\ (s\_queue-\/>m\_start\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00224}00224\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00225}00225\ \ \ \ \ \ \ \ \ remove\_order(s\_queue-\/>m\_start,\ s\_queue);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00226}00226\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00227}00227\ \ \ \ \ turn\_off\_all\_button\_lights();}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00228}00228\ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00230}00230\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00231}00231\ turn\_off\_all\_button\_lights\ ()}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00232}00232\ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00234}00234\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ floor\ =\ 0;\ floor\ <\ N\_FLOORS;\ floor++)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00235}00235\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ button\ =\ 0;\ button\ <\ N\_BUTTONS;\ button++)}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00237}00237\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ elevio\_buttonLamp(floor,\ button,\ 0);}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00239}00239\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00240}00240\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{elevator_8c_source_l00241}00241\ \}}
+
+\end{DoxyCode}
